@@ -9,7 +9,7 @@ class DoubleLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
-        self.size = 0
+        self.length = 0
 
     def __str__(self):
         vals = []
@@ -20,18 +20,18 @@ class DoubleLinkedList:
             node = node.next
         return f"[{', '.join(str(val) for val in vals)}]"
 
-    def add(self, val):
+    def pushFront(self, val):
         node = Node(val)
 
         if self.tail is None:
             self.head = node
             self.tail = node
-            self.size += 1
+            self.length += 1
         else:
             self.tail.next = node
             node.prev = self.tail
             self.tail = node
-            self.size += 1
+            self.length += 1
 
     def __remove_node(self, node):
         if node.prev is None:
@@ -52,28 +52,42 @@ class DoubleLinkedList:
                 self.__remove_node(node)
             node = node.next
 
-        self.size -= 1
+        self.length -= 1
 
-    def remove_first(self):
+    def popFront(self):
         if self.head is not None:
             self.__remove_node(self.head)
-            self.size -= 1
+            self.length -= 1
 
-    def remove_last(self):
+    def popBack(self):
         if self.tail is not None:
             self.__remove_node(self.tail)
-            self.size -= 1
+            self.length -= 1
+
+    def reverse(self):
+        node = None
+        current = self.head
+
+        while current is not None:
+            node = current.prev
+            current.prev = current.next
+            current.next = node
+            current = current.prev
+
+        if node is not None:
+            self.head = node.prev
 
 
 my_list = DoubleLinkedList()
 
-my_list.add(10)
-my_list.add(20)
-my_list.add(30)
-my_list.add(40)
-my_list.add(50)
+my_list.pushFront(10)
+my_list.pushFront(20)
+my_list.pushFront(30)
+my_list.pushFront(40)
+my_list.pushFront(50)
 
-my_list.remove_first()
+my_list.popFront()
+my_list.reverse()
 
 print(my_list)
-print(f"Size: {my_list.size}")
+print(f"length: {my_list.length}")
