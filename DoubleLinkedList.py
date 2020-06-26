@@ -22,16 +22,31 @@ class DoubleLinkedList:
 
     def pushFront(self, val):
         node = Node(val)
+        node.next = self.head
+        node.prev = None
 
-        if self.tail is None:
+        if self.head is not None:
+            self.head.prev = node
+
+        self.head = node
+        self.length += 1
+
+    def pushBack(self, val):
+        node = Node(val)
+        current = self.head
+        node.next = None
+        self.length += 1
+
+        if self.head is None:
+            node.prev = None
             self.head = node
-            self.tail = node
-            self.length += 1
-        else:
-            self.tail.next = node
-            node.prev = self.tail
-            self.tail = node
-            self.length += 1
+            return
+
+        while current.next is not None:
+            current = current.next
+
+        current.next = node
+        node.prev = current
 
     def __remove_node(self, node):
         if node.prev is None:
@@ -85,9 +100,10 @@ my_list.pushFront(20)
 my_list.pushFront(30)
 my_list.pushFront(40)
 my_list.pushFront(50)
-
 my_list.popFront()
 my_list.reverse()
+my_list.pushBack(50)
+my_list.pushBack(60)
 
 print(my_list)
 print(f"length: {my_list.length}")
