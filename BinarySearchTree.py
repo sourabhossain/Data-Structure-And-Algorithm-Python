@@ -1,7 +1,7 @@
 class Node:
     def __init__(self, val):
-        self.left = None
-        self.right = None
+        self.left: Node = None
+        self.right: Node = None
         self.val = val
 
 
@@ -10,20 +10,18 @@ class BinarySearchTree:
         self.root = None
 
     def __insert(self, node, val):
-        if node is None:
-            return
         if node.val == val:
             return
         elif val < node.val:
             if node.left is None:
                 node.left = Node(val)
-                return
-            self.__insert(node.left, val)
+            else:
+                self.__insert(node.left, val)
         else:
             if node.right is None:
                 node.right = Node(val)
-                return
-            self.__insert(node.right, val)
+            else:
+                self.__insert(node.right, val)
 
     def insert(self, val):
         if self.root is None:
